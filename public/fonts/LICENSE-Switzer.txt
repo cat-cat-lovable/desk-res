@@ -1,0 +1,33 @@
+Switzer
+Indian Type Foundry (ITF)
+
+Copyright 2015-2021 Indian Type Foundry. All rights reserved.
+Switzer is a trademark of the Indian Type Foundry.
+
+Diseño: Jeremie Hornus
+Versión incluida: 1.200 (variable)
+
+--------------------------------------------------------------------------
+LICENCIA (texto declarado por el propio archivo de fuente, nameID 13)
+--------------------------------------------------------------------------
+
+This Font Software is protected under domestic and international trademark
+and copyright law. You agree to identify the ITF fonts by name and credit
+the ITF's ownership of the trademarks and copyrights in any design or
+production credits.
+
+Términos completos: https://fontshare.com/terms
+Fundición: https://indiantypefoundry.com
+
+--------------------------------------------------------------------------
+OBLIGACIÓN QUE NOS APLICA
+--------------------------------------------------------------------------
+
+La licencia exige acreditar a ITF por nombre en los créditos de diseño o
+producción de cualquier pieza que use la fuente. Switzer se redistribuye en
+cada proyecto generado por create-lexy (public/fonts/), así que este archivo
+viaja con ella.
+
+Este archivo reproduce los metadatos de licencia embebidos en
+switzer-variable.woff2. Ante cualquier discrepancia, mandan los términos
+publicados en fontshare.com/terms.

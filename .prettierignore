@@ -1,0 +1,11 @@
+pnpm-lock.yaml
+src/lexy-theme.css
+public/fonts/
+dist/
+
+# capa de IA (create-lexy install-ai) — contenido vendorizado
+AGENTS.md
+CLAUDE.md
+ai/
+.claude/
+.github/copilot-instructions.md

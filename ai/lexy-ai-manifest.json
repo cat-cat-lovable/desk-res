@@ -1,0 +1,70 @@
+{
+  "$comment": "Generado por create-lexy install-ai — no editar a mano; regenerar con `npx create-lexy@latest install-ai`.",
+  "aiVersion": "0.7.7",
+  "generatedAt": "2026-08-20T18:06:34.682Z",
+  "model": "registry-only: los componentes viven en este proyecto. Descubre con viewList, mira con view, instala con add, edita localmente con libertad; `diff` muestra la divergencia de una pieza cuando hace falta.",
+  "registry": {
+    "package": "@lexydesign/registry",
+    "cdn": "https://cdn.jsdelivr.net/npm/@lexydesign/registry",
+    "catalogUrl": "https://cdn.jsdelivr.net/npm/@lexydesign/registry@latest/r/registry.json"
+  },
+  "commands": {
+    "viewList": "npx create-lexy@latest view --list",
+    "view": "npx create-lexy@latest view {component}",
+    "add": "npx create-lexy@latest add {component}",
+    "diff": "npx create-lexy@latest diff {component}"
+  },
+  "architecture": "feature",
+  "componentImportPattern": "@/shared/components/base/{Component}",
+  "componentsPath": "src/shared/components/base",
+  "docPattern": "src/shared/components/base/{Component}.md",
+  "prototype": {
+    "enabled": true,
+    "dataContractVersion": "1",
+    "dataContractPath": "src/prototype/data-contract/prototype-data-contract.ts",
+    "runtimeEnabled": true,
+    "runtimeVersion": "1",
+    "mockStorePath": "src/prototype/mock-store/mock-store.ts",
+    "fixturesPath": "src/prototype/mock-store/fixtures.ts",
+    "portsPath": "src/prototype/ports/index.ts",
+    "designerPanelEnabled": true,
+    "designerPanelVersion": "1",
+    "designerPanelPath": "src/prototype/designer-panel/PrototypeDesignerPanel.tsx",
+    "designerActivityStorePath": "src/prototype/designer-panel/designer-activity.ts",
+    "checkDataContractCommand": "pnpm check:data-contract",
+    "checkPrototypeCommand": "pnpm check:prototype",
+    "checkCommand": "pnpm check:data-contract"
+  },
+  "designGuidance": {
+    "elección de mundo (cliente vs CRM)": "ai/pautas/diseno-cliente.md · ai/pautas/diseno-crm-lexy.md",
+    "jerarquía y progressive disclosure": "ai/pautas/arquitectura-informacion-ux.md",
+    "densidad, espaciado, tokens, tipografía": "ai/pautas/sistema-visual.md",
+    "elección de componentes y estados obligatorios": "ai/pautas/buenas-practicas.md",
+    "composiciones canónicas": "ai/pautas/recetas-layout.md",
+    "voz, tono y microcopy": "ai/pautas/ux-writing.md",
+    "vara de calidad / pase anti-genérico": "ai/pautas/calidad-industria.md"
+  },
+  "files": [
+    ".claude\\skills\\lexy-design\\SKILL.md",
+    ".claude\\skills\\lexy-dev\\SKILL.md",
+    ".claude\\skills\\lexy-mock-data\\SKILL.md",
+    ".github\\copilot-instructions.md",
+    ".mcp.json",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "ai/lexy-ai-manifest.json",
+    "ai\\IMPLEMENTATION-PROTOCOL.md",
+    "ai\\PRODUCTION-CLEANUP.md",
+    "ai\\PROJECT-CONTEXT.md",
+    "ai\\TECHNICAL-USAGE.md",
+    "ai\\pautas\\arquitectura-informacion-ux.md",
+    "ai\\pautas\\buenas-practicas.md",
+    "ai\\pautas\\calidad-industria.md",
+    "ai\\pautas\\diseno-cliente.md",
+    "ai\\pautas\\diseno-crm-lexy.md",
+    "ai\\pautas\\patrones-de-codigo.md",
+    "ai\\pautas\\recetas-layout.md",
+    "ai\\pautas\\sistema-visual.md",
+    "ai\\pautas\\ux-writing.md"
+  ]
+}

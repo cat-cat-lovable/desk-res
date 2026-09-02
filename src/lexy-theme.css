@@ -1,0 +1,784 @@
+/**
+ * Tema Lexy — fuente única de verdad.
+ * Lo consumen Storybook (apps/storybook/.storybook/storybook.css), el showcase
+ * (apps/showcase/src/styles.css) y el proyecto generado: packages/cli lo
+ * vendoriza como src/lexy-theme.css, copiándolo desde packages/cli/assets/theme/
+ * que prepara packages/cli/scripts/prepare-assets.mjs. No editar copias:
+ * cualquier cambio de tokens va aquí.
+ *
+ * Convención shadcn/Tailwind: tokens semánticos (no escalas numéricas).
+ * Para colores crudos puntuales se usa la paleta por defecto de Tailwind
+ * (bg-blue-500, text-zinc-600, …). Fondos sutiles de estado vía opacidad
+ * (bg-success/10, border-warning/20, …).
+ */
+
+/*
+ * Geist Sans y Geist Mono (variables, SIL OFL) son las fuentes de texto de
+ * Lexy. Switzer se reserva para display. Se auto-hospedan para garantizar un
+ * render idéntico en todos los sistemas.
+ */
+@font-face {
+  font-family: "Geist Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-sans-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Geist Sans";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-sans-variable-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-mono-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-mono-variable-italic.woff2") format("woff2");
+}
+
+/*
+ * Switzer (Fontshare / Indian Type Foundry) es la fuente de display de Lexy:
+ * títulos y piezas de identidad. Variable, cubre todos los pesos en un archivo.
+ * Se auto-hospeda igual que Geist y viaja a cada proyecto generado.
+ *
+ * El sistema tiene DOS familias y ninguna más: Geist para texto e interfaz,
+ * Switzer para display. Neue Montreal y Satoshi se descartaron (ago 2026): eran
+ * exploraciones que ningún token usaba y Neue Montreal es free-personal-use,
+ * inviable en producto comercial.
+ */
+@font-face {
+  font-family: "Switzer";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/switzer-variable.woff2") format("woff2");
+}
+
+@theme {
+  /* ── Color ──
+     Atmósfera canónica: Blanco nítido. El canvas y las superficies desaparecen
+     visualmente para que el contenido lidere; la jerarquía se construye con
+     tinta limpia, grises neutros y marca concentrada en acciones y estados.
+     Se conserva la nomenclatura semántica shadcn/Tailwind. */
+
+  /* ── Superficies y texto ── */
+  --color-background: #ffffff; /* canvas canónico */
+  --color-foreground: #202124; /* tinta principal */
+  --color-foreground-secondary: #4f5157; /* texto de apoyo con contraste estable */
+  --color-foreground-faint: #8a8d97; /* metadata no esencial; ≥3:1, solo tamaños grandes — DEC-009 */
+  --color-card: #ffffff; /* la superficie no tiñe el canvas */
+  --color-card-foreground: #202124;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #202124;
+  --color-surface-subtle: #f7f7f8; /* chrome y separación de primer nivel */
+  --color-surface-muted: #f1f1f3; /* selección neutral y agrupación secundaria */
+  --color-surface-raised: #ffffff; /* popovers y superficies realmente elevadas */
+  --color-surface-container: #fafafb; /* zona de contención: agrupa regiones del documento por tono, radio y aire en lugar de hairlines — DEC-014 */
+
+  /* ── Acción · Marca funcional ──
+     El índigo aparece cuando comunica acción, foco o selección. No se usa para
+     teñir el canvas ni como decoración editorial. */
+  --color-primary: #4648d4; /* índigo de marca · Fluent BrandBackground */
+  --color-primary-foreground: #ffffff;
+  --color-primary-hover: #3d3fc0; /* la presión oscurece, no cambia de matiz — DEC-009 */
+  --color-primary-active: #313396; /* Fluent BrandBackgroundPressed */
+  --color-cta: var(--color-brand-navy); /* reposo de los botones accionables (Button default): navy de marca, a pedido del diseñador */
+  --color-cta-hover: color-mix(in oklab, var(--color-brand-navy) 85%, black); /* la presión oscurece, no cambia de matiz — DEC-009 */
+  --color-cta-active: color-mix(in oklab, var(--color-brand-navy) 65%, black);
+  --color-secondary: var(--color-surface-subtle); /* alias: la escalera DEC-006 es fuente única */
+  --color-secondary-foreground: var(--color-foreground-secondary);
+  --color-accent: #f0f0fb; /* presencia de marca de baja intensidad */
+  --color-accent-foreground: #4648d4;
+  --color-muted: var(--color-surface-muted); /* alias: la escalera DEC-006 es fuente única */
+  --color-muted-foreground: #696c75; /* AA sobre blanco, muted y sidebar — DEC-009 */
+
+  /* ── Marca ── */
+  --color-brand-navy: #0b013c; /* navy/ink del wordmark Lexy (HeaderBar surface navy) */
+  --color-brand-lavender: #9d90fc; /* lavanda de marca (superficies expresivas) */
+  --color-brand-indigo-deep: #4429cc; /* índigo profundo de marca (superficies expresivas) */
+
+  /* ── Bordes y foco ── */
+  --color-border-subtle: #ececef; /* separación editorial y cards planas */
+  --color-border: #dedee3; /* controles y estructura persistente */
+  --color-border-strong: #c9cad0; /* campos y límites que deben ser inequívocos */
+  --color-input: #c9cad0;
+  --color-ring: #4648d4; /* Fluent BrandStroke1 */
+
+  /* ── Geometría — una forma por rol (DEC-010, refina DEC-003).
+        La escala numérica se asigna mediante aliases de rol: 4px para piezas
+        mini; 6px para campos, todos los botones, navegación y opciones de
+        menú; 8px para flotantes compactas; 10px para cards; 14px
+        para overlays y 20px para media y paneles hero. Todos los botones
+        comparten la misma base de 6px, sin excepciones por jerarquía o tamaño. ── */
+  --radius-sm: 0.125rem; /* 2px · elementos mini (<32px) */
+  --radius: 0.25rem; /* 4px · checkbox y piezas compactas */
+  --radius-interactive: 0.375rem; /* 6px · base compartida por controles rectangulares */
+  --radius-control: var(--radius-interactive); /* input, textarea, select y searchbox */
+  --radius-button: var(--radius-interactive); /* todos los botones y tamaños */
+  --radius-button-lg: var(--radius-button); /* todos los tamaños de botón comparten 6px */
+  --radius-menu-item: var(--radius-interactive); /* opción dentro de menú o command */
+  --radius-nav-item: var(--radius-interactive); /* tabs, navegación y sidebar */
+  --radius-md: 0.5rem; /* 8px · superficies flotantes compactas */
+  --radius-lg: 0.625rem; /* 10px · cards y superficies grandes */
+  --radius-xl: 0.875rem; /* 14px · overlays de cambio de contexto (dialog, sheet) */
+  --radius-2xl: 1.25rem; /* 20px · media y paneles hero */
+  --radius-full: 9999px; /* avatares, dots, toggles y conteos circulares */
+
+  /* ── Iconografía — el tamaño declara función, no el archivo de origen.
+        El glifo y su caja interactiva son decisiones independientes: botones
+        y navegación conservan un glifo óptico de 16px dentro de controles de
+        32–40px. Los iconos de objeto mantienen su significado al cambiar el
+        estado; color y badges comunican el estado por separado. ── */
+  --icon-size-inline: 1rem; /* 16px · texto, botones, navegación y adornos */
+  --icon-size-control: 1rem; /* 16px · acción exclusivamente icono */
+  --icon-size-object: 1rem; /* 16px · tipo de documento dentro de caja de 32px */
+  --icon-size-feature: 1.5rem; /* 24px · empty state o comunicación excepcional */
+
+  /* ── Elevación semántica — solo para superficies que realmente flotan.
+        El tinte navy es una firma consciente registrada en DEC-010: aparece
+        únicamente al elevar, nunca como profundidad permanente de controles. ── */
+  --shadow-raised: 0 1px 2px rgb(11 1 60 / 0.06), 0 2px 8px rgb(11 1 60 / 0.04);
+  --shadow-overlay: 0 8px 24px rgb(11 1 60 / 0.1), 0 2px 8px rgb(11 1 60 / 0.06);
+
+  /* ── Sidebar — chrome tenue con marca concentrada en interacción.
+     Recupera la intención del Kickoff original (lavanda + índigo en navegación)
+     sin convertir toda la superficie en un bloque de color. ── */
+  --color-sidebar: var(--color-background);
+  --color-sidebar-foreground: var(--color-foreground);
+  --color-sidebar-primary: #4648d4;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-hover: color-mix(in oklab, var(--color-primary) 5%, var(--color-sidebar));
+  --color-sidebar-accent: color-mix(in oklab, var(--color-primary) 10%, var(--color-sidebar));
+  --color-sidebar-accent-foreground: var(--color-primary);
+  --color-sidebar-border: var(--color-border-subtle);
+  --color-sidebar-ring: #4648d4;
+
+  /* ── Series de datos (charts) — DEC-009.
+        Paleta categórica propia y vívida. Los datos nunca reutilizan el índigo
+        de acción ni los hex semánticos: una serie no debe parecer accionable
+        ni leerse como advertencia (el naranja vivo quedó libre al mover el
+        warning tipográfico a #9f5400). Se consumen vía la prop `color` del
+        ChartConfig (color: "var(--color-chart-1)") o como bg-chart-1. */
+  --color-chart-1: #2f80ed; /* azul vivo */
+  --color-chart-2: #1aab8a; /* teal vivo */
+  --color-chart-3: #f7630c; /* naranja vivo */
+  --color-chart-4: #b14ad1; /* magenta vivo */
+  --color-chart-5: #e23f74; /* rosa vivo */
+
+  /* ── Estados semánticos — base vívida + paso -strong para tipografía.
+        La base (dots, rellenos, tintes de chips) es vívida; el paso -strong
+        garantiza AA cuando el estado se escribe como texto sobre claro. ── */
+  --color-destructive: #d13438; /* vívido y AA a la vez (4.9:1) */
+  --color-destructive-foreground: #ffffff;
+  --color-success: #16a34a; /* verde vívido · dots, rellenos y tintes */
+  --color-success-strong: #107c10; /* texto de éxito sobre claro (5.4:1) */
+  --color-success-foreground: #ffffff;
+  --color-warning: #f59e0b; /* ámbar vívido · dots, rellenos y tintes */
+  --color-warning-strong: #9f5400; /* texto de advertencia sobre claro (5.6:1) */
+  --color-warning-foreground: #ffffff;
+  --color-info: #0f6cbd; /* azul de comunicación Fluent 2 */
+  --color-info-foreground: #ffffff;
+
+  /* ── Tipografía — ritmo canónico Material 3 (DEC-002), podada a escalones
+        con oficio (DEC-015): cuerpo 12/16, 14/20 y 16/24; títulos 22/28,
+        24/32 y 32/40. Geist Sans y tracking negativo progresivo que escala
+        con el tamaño. ── */
+  --text-xs: 0.75rem; /* 12 / 16 · Body small */
+  --text-xs--line-height: 1rem;
+  /* Tracking levemente positivo en tamaños chicos: la neo-grotesca (Switzer)
+     trae espaciado ajustado pensado para display; en texto pequeño se beneficia
+     de un poco de aire. Graduado: más chico = un pelín más. */
+  --text-xs--letter-spacing: 0.01em;
+  --text-sm: 0.875rem; /* 14 / 20 · Body medium / Label large */
+  --text-sm--line-height: 1.25rem;
+  --text-sm--letter-spacing: 0.005em;
+  --text-base: 1rem; /* 16 / 24 · Body large */
+  --text-base--line-height: 1.5rem;
+  --text-base--letter-spacing: -0.003em;
+  --text-lg: 1.375rem; /* 22 / 28 · Title large */
+  --text-lg--line-height: 1.75rem;
+  --text-lg--letter-spacing: -0.018em;
+  --text-xl: 1.5rem; /* 24 / 32 · Headline small */
+  --text-xl--line-height: 2rem;
+  --text-xl--letter-spacing: -0.019em;
+  /* 28 sin oficio — DEC-015: fuera de la rampa activa (reserva editorial en :root). */
+  --text-2xl: initial;
+  --text-2xl--line-height: initial;
+  --text-2xl--letter-spacing: initial;
+  --text-3xl: 2rem; /* 32 / 40 · Headline large */
+  --text-3xl--line-height: 2.5rem;
+  --text-3xl--letter-spacing: -0.022em;
+  /* Display 36/45/57 sin oficio en producto — DEC-015: no generan utilidades;
+     sus valores viven como reserva editorial en :root, al final del archivo. */
+  --text-4xl: initial;
+  --text-4xl--line-height: initial;
+  --text-4xl--letter-spacing: initial;
+  --text-5xl: initial;
+  --text-5xl--line-height: initial;
+  --text-5xl--letter-spacing: initial;
+  --text-6xl: initial;
+  --text-6xl--line-height: initial;
+  --text-6xl--letter-spacing: initial;
+
+  /* ── Pesos funcionales compatibles con los roles de Material 3. ── */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ── Fuentes ──
+     Geist Sans y Geist Mono se auto-hospedan con licencia OFL. Los genéricos
+     finales solo actúan si los archivos no llegaran a cargar. */
+  --font-sans:
+    "Geist Sans", system-ui, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-mono:
+    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
+  /* Display: heros y superficies gráficas; nunca cuerpo ni UI. */
+  --font-display: "Switzer", var(--font-sans);
+
+  /* ── Roles tipográficos — asignación semántica (DEC-012).
+     La escala numérica sigue siendo la fuente de los valores; estos tokens
+     fijan qué combinación de tamaño, ritmo, tracking y peso corresponde a
+     cada función. Dos roles pueden compartir tamaño sin compartir jerarquía. */
+  --type-page-title-size: var(--text-3xl);
+  --type-page-title-line-height: var(--text-3xl--line-height);
+  --type-page-title-letter-spacing: var(--text-3xl--letter-spacing);
+  --type-page-title-weight: var(--font-weight-semibold);
+
+  --type-dialog-title-size: var(--text-xl);
+  --type-dialog-title-line-height: var(--text-xl--line-height);
+  --type-dialog-title-letter-spacing: var(--text-xl--letter-spacing);
+  --type-dialog-title-weight: var(--font-weight-semibold);
+
+  /* Subnivel de documento entre sección (16) y página (32) — DEC-015 */
+  --type-subsection-title-size: var(--text-lg);
+  --type-subsection-title-line-height: var(--text-lg--line-height);
+  --type-subsection-title-letter-spacing: var(--text-lg--letter-spacing);
+  --type-subsection-title-weight: var(--font-weight-semibold);
+
+  --type-section-title-size: var(--text-base);
+  --type-section-title-line-height: var(--text-base--line-height);
+  --type-section-title-letter-spacing: var(--text-base--letter-spacing);
+  --type-section-title-weight: var(--font-weight-semibold);
+
+  --type-item-title-size: var(--text-base);
+  --type-item-title-line-height: var(--text-base--line-height);
+  --type-item-title-letter-spacing: var(--text-base--letter-spacing);
+  --type-item-title-weight: var(--font-weight-medium);
+
+  --type-body-size: var(--text-base);
+  --type-body-line-height: var(--text-base--line-height);
+  --type-body-letter-spacing: var(--text-base--letter-spacing);
+  --type-body-weight: var(--font-weight-normal);
+
+  --type-supporting-size: var(--text-sm);
+  --type-supporting-line-height: var(--text-sm--line-height);
+  --type-supporting-letter-spacing: var(--text-sm--letter-spacing);
+  --type-supporting-weight: var(--font-weight-normal);
+
+  --type-action-label-size: var(--text-sm);
+  --type-action-label-line-height: var(--text-sm--line-height);
+  --type-action-label-letter-spacing: var(--text-sm--letter-spacing);
+  --type-action-label-weight: var(--font-weight-medium);
+
+  /* Cifras: montos, plazos, RUT, fechas — DEC-015 */
+  --type-data-size: var(--text-sm);
+  --type-data-line-height: var(--text-sm--line-height);
+  --type-data-letter-spacing: var(--text-sm--letter-spacing);
+  --type-data-weight: var(--font-weight-medium);
+
+  --type-meta-size: var(--text-xs);
+  --type-meta-line-height: var(--text-xs--line-height);
+  --type-meta-letter-spacing: var(--text-xs--letter-spacing);
+  --type-meta-weight: var(--font-weight-normal);
+
+  /* ── Movimiento y respuesta — DEC-007.
+        La duración responde a la distancia conceptual del cambio: presión,
+        estado local, reorganización u overlay. Sin rebotes ni ceremonia. ── */
+  --duration-instant: 80ms; /* hover y reconocimiento inmediato */
+  --duration-fast: 120ms; /* presión y controles locales */
+  --duration-normal: 180ms; /* cambio de estado o reorganización */
+  --duration-overlay: 220ms; /* diálogo, sheet y cambio de contexto */
+  /* Tramos largos para transiciones amplias de contenido o vista (Material 3
+     medium/long). No para controles: un botón nunca dura 300ms — la contención
+     de DEC-007 se mantiene reservando estos tramos a cambios de superficie. */
+  --duration-emphasized: 300ms; /* M3 medium2 · shared axis / fade through */
+  --duration-long: 500ms; /* M3 long2 · cambio de vista completo */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1); /* M3 Standard */
+  --ease-enter: cubic-bezier(0, 0, 0, 1); /* M3 Standard decelerate */
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1); /* M3 Standard accelerate */
+  /* Par "emphasized" de Material 3 — el "sale rápido, aterriza suave" para
+     reorganizaciones amplias. Entrada = decelerate; salida = accelerate. Se
+     usan solo en transiciones de contenido grandes, nunca en controles. */
+  --ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1); /* M3 Emphasized decelerate */
+  --ease-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15); /* M3 Emphasized accelerate */
+
+  /* ── "Fluid" — la firma de movimiento de Lexy (un paso más allá de Material).
+     Momentum con voluntad: respuesta inmediata a la presión + cola larga que
+     desacelera como algo deslizándose sobre hielo. Perfil de mínimo-jerk, el
+     del movimiento humano natural — se siente propio, no mecánico. Springs
+     aproximados con linear() (física en CSS, sin JS).
+       · glide  → sin overshoot; seguro para opacidad y tamaño.
+       · slip   → overshoot leve ~4% ("casi se resbala"); solo transform, en
+                  momentos con firma. Nunca en opacidad (se recorta en 1).
+     Se usan con moderación: la contención de DEC-007 sigue mandando. */
+  --duration-fluid: 380ms;
+  --ease-fluid-glide: linear(
+    0,
+    0.0754 4.2%,
+    0.2275 8.3%,
+    0.3908 12.5%,
+    0.5372 16.7%,
+    0.6575 20.8%,
+    0.7513 25%,
+    0.8222 29.2%,
+    0.8743 33.3%,
+    0.912 37.5%,
+    0.9389 41.7%,
+    0.9579 45.8%,
+    0.9711 50%,
+    0.9803 54.2%,
+    0.9866 58.3%,
+    0.9909 62.5%,
+    0.9939 66.7%,
+    0.9959 70.8%,
+    0.9972 75%,
+    0.9982 79.2%,
+    0.9988 83.3%,
+    0.9992 87.5%,
+    0.9995 91.7%,
+    0.9996 95.8%,
+    1
+  );
+  --ease-fluid-slip: linear(
+    0,
+    0.1199 4.2%,
+    0.3591 8.3%,
+    0.601 12.5%,
+    0.7928 16.7%,
+    0.922 20.8%,
+    0.9959 25%,
+    1.0296 29.2%,
+    1.0384 33.3%,
+    1.0342 37.5%,
+    1.0251 41.7%,
+    1.0157 45.8%,
+    1.0083 50%,
+    1.0032 54.2%,
+    1.0003 58.3%,
+    0.9989 62.5%,
+    0.9985 66.7%,
+    0.9987 70.8%,
+    0.999 75%,
+    0.9994 79.2%,
+    0.9997 83.3%,
+    0.9999 87.5%,
+    1 91.7%,
+    1 95.8%,
+    1
+  );
+
+  /* ── Densidad de acción — DEC-008.
+        Los botones son compactos sin reducir el área de lectura ni densificar
+        formularios completos. La geometría permanece estable durante loading. ── */
+  --control-height-sm: 2rem; /* 32px */
+  --control-height: 2.25rem; /* 36px */
+  --control-height-lg: 2.5rem; /* 40px */
+
+  /* ── Animaciones (Accordion de Radix) ── */
+  --animate-accordion-down: accordion-down var(--duration-normal) var(--ease-standard);
+  --animate-accordion-up: accordion-up var(--duration-normal) var(--ease-standard);
+
+  /* ── Jerarquía por proximidad (DEC-012).
+     El nombre describe la relación, no el valor. Menor distancia = una misma
+     idea; mayor distancia = cambio de grupo, sección o región. La rampa usa
+     el grid de 8px y reserva 4px para pares tipográficos inseparables. */
+  --spacing-coupled: 0.25rem; /*  4px · título + metadata inmediata */
+  --spacing-related: 0.5rem; /*  8px · título + supporting text */
+  --spacing-grouped: 1rem; /* 16px · elementos de una misma unidad */
+  --spacing-item-gap: 1.5rem; /* 24px · items hermanos sin contenedor */
+  --spacing-separated: 2rem; /* 32px · secciones distintas */
+  --spacing-region: 3rem; /* 48px · regiones mayores de página */
+
+  /* Alias históricos: conservan compatibilidad, pero las composiciones nuevas
+     deben expresar la relación con coupled/related/grouped/separated/region. */
+  --spacing-stack-sm: var(--spacing-related);
+  --spacing-stack-md: var(--spacing-grouped);
+  --spacing-stack-lg: var(--spacing-separated);
+  --spacing-gutter: 1.5rem; /* 24px · margen interior de columna */
+  --spacing-section-gap: var(--spacing-separated);
+  --spacing-page-bottom: 8rem; /* 128px · padding inferior de página */
+
+  /* ── Márgenes de contenedor ── */
+  --spacing-margin-mobile: 1rem; /* 16px · margen lateral en móvil */
+  --spacing-margin-desktop: 3rem; /* 48px · margen lateral en desktop */
+  --spacing-container-max: 80rem; /* 1280px · ancho máximo de contenedor */
+
+  /* ── Breakpoints ────────────────────────────────────────────────
+     Contrato responsive: móvil = <768px (bajo md). Es el mismo umbral que
+     MOBILE_BREAKPOINT en registry/components/useIsMobile.ts — si el
+     contrato cambia, cambia en ambos lugares. Los valores coinciden con
+     los defaults de Tailwind: se declaran para fijar el contrato. */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px · umbral móvil ↔ desktop */
+  --breakpoint-lg: 64rem; /* 1024px · umbral columnas master-detail */
+}
+
+/* ── Reserva editorial (DEC-015) ──
+   Escalones display sin oficio en producto: no generan utilidades text-*.
+   Sobreviven como variables para la bitácora y superficies de marca. Si un
+   rol los reclama, vuelven al @theme. */
+:root {
+  --text-2xl: 1.75rem; /* 28 / 36 · Headline medium */
+  --text-2xl--line-height: 2.25rem;
+  --text-2xl--letter-spacing: -0.021em;
+  --text-4xl: 2.25rem; /* 36 / 44 · Display small */
+  --text-4xl--line-height: 2.75rem;
+  --text-4xl--letter-spacing: -0.024em;
+  --text-5xl: 2.8125rem; /* 45 / 52 · Display medium */
+  --text-5xl--line-height: 3.25rem;
+  --text-5xl--letter-spacing: -0.028em;
+  --text-6xl: 3.5625rem; /* 57 / 64 · Display large */
+  --text-6xl--line-height: 4rem;
+  --text-6xl--letter-spacing: -0.033em;
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .lexy-state-enter {
+    animation: lexy-state-enter var(--duration-normal) var(--ease-enter) both;
+  }
+
+  /* ── Patrones de transición Material 3 (Nivel 2) ──
+     Recetas reutilizables de choreography, solo CSS. Entrada con
+     emphasized-decelerate, salida con emphasized-accelerate (M3). El
+     "container transform" se omite a propósito: requiere FLIP/JS, fuera del
+     alcance de tokens+CSS. Todas se anulan con prefers-reduced-motion. */
+
+  /* Fade — cambio simple de opacidad (contenido relacionado). */
+  .lexy-fade-in {
+    animation: lexy-fade-in var(--duration-normal) var(--ease-standard) both;
+  }
+  .lexy-fade-out {
+    animation: lexy-fade-out var(--duration-fast) var(--ease-exit) both;
+  }
+
+  /* Fade through — sin relación espacial: saliente se desvanece encogiendo,
+     entrante aparece creciendo desde 92% (destinos no jerárquicos). */
+  .lexy-fade-through-in {
+    animation: lexy-fade-through-in var(--duration-emphasized) var(--ease-emphasized-decelerate)
+      both;
+  }
+  .lexy-fade-through-out {
+    animation: lexy-fade-through-out var(--duration-fast) var(--ease-emphasized-accelerate) both;
+  }
+
+  /* Shared axis X — relación horizontal (avanzar/retroceder). Reverse invierte
+     la dirección para el gesto contrario. */
+  .lexy-shared-x-in {
+    animation: lexy-shared-x-in var(--duration-emphasized) var(--ease-emphasized-decelerate) both;
+  }
+  .lexy-shared-x-in-reverse {
+    animation: lexy-shared-x-in-reverse var(--duration-emphasized) var(--ease-emphasized-decelerate)
+      both;
+  }
+  .lexy-shared-x-out {
+    animation: lexy-shared-x-out var(--duration-fast) var(--ease-emphasized-accelerate) both;
+  }
+  .lexy-shared-x-out-reverse {
+    animation: lexy-shared-x-out-reverse var(--duration-fast) var(--ease-emphasized-accelerate) both;
+  }
+
+  /* Shared axis Y — relación jerárquica vertical (entrar/salir de un nivel). */
+  .lexy-shared-y-in {
+    animation: lexy-shared-y-in var(--duration-emphasized) var(--ease-emphasized-decelerate) both;
+  }
+  .lexy-shared-y-out {
+    animation: lexy-shared-y-out var(--duration-fast) var(--ease-emphasized-accelerate) both;
+  }
+}
+
+/* Roles compuestos: la única API de asignación tipográfica del registry
+   (DEC-012 + DEC-015). Evitan reconstruir un rol con text-* + leading-* +
+   tracking-* + font-*. Viven en la capa components para que una utilidad
+   puntual pueda matizar un rol (font-medium como énfasis, tracking-widest,
+   tabular-nums) sin reconstruirlo. */
+@layer components {
+  .type-page-title,
+  .type-dialog-title,
+  .type-subsection-title,
+  .type-section-title,
+  .type-item-title,
+  .type-body,
+  .type-supporting,
+  .type-action-label,
+  .type-data,
+  .type-meta {
+    font-family: var(--font-sans);
+  }
+
+  .type-page-title {
+    font-family: var(--font-display);
+    font-size: var(--type-page-title-size);
+    line-height: var(--type-page-title-line-height);
+    letter-spacing: var(--type-page-title-letter-spacing);
+    font-weight: var(--type-page-title-weight);
+  }
+
+  .type-dialog-title {
+    font-size: var(--type-dialog-title-size);
+    line-height: var(--type-dialog-title-line-height);
+    letter-spacing: var(--type-dialog-title-letter-spacing);
+    font-weight: var(--type-dialog-title-weight);
+  }
+
+  .type-section-title {
+    font-size: var(--type-section-title-size);
+    line-height: var(--type-section-title-line-height);
+    letter-spacing: var(--type-section-title-letter-spacing);
+    font-weight: var(--type-section-title-weight);
+  }
+
+  .type-item-title {
+    font-size: var(--type-item-title-size);
+    line-height: var(--type-item-title-line-height);
+    letter-spacing: var(--type-item-title-letter-spacing);
+    font-weight: var(--type-item-title-weight);
+  }
+
+  .type-body {
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-line-height);
+    letter-spacing: var(--type-body-letter-spacing);
+    font-weight: var(--type-body-weight);
+  }
+
+  .type-supporting {
+    font-size: var(--type-supporting-size);
+    line-height: var(--type-supporting-line-height);
+    letter-spacing: var(--type-supporting-letter-spacing);
+    font-weight: var(--type-supporting-weight);
+  }
+
+  .type-action-label {
+    font-size: var(--type-action-label-size);
+    line-height: var(--type-action-label-line-height);
+    letter-spacing: var(--type-action-label-letter-spacing);
+    font-weight: var(--type-action-label-weight);
+  }
+
+  .type-subsection-title {
+    font-size: var(--type-subsection-title-size);
+    line-height: var(--type-subsection-title-line-height);
+    letter-spacing: var(--type-subsection-title-letter-spacing);
+    font-weight: var(--type-subsection-title-weight);
+  }
+
+  .type-data {
+    font-size: var(--type-data-size);
+    line-height: var(--type-data-line-height);
+    letter-spacing: var(--type-data-letter-spacing);
+    font-weight: var(--type-data-weight);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .type-meta {
+    font-size: var(--type-meta-size);
+    line-height: var(--type-meta-line-height);
+    letter-spacing: var(--type-meta-letter-spacing);
+    font-weight: var(--type-meta-weight);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lexy-state-enter,
+  .lexy-fade-in,
+  .lexy-fade-out,
+  .lexy-fade-through-in,
+  .lexy-fade-through-out,
+  .lexy-shared-x-in,
+  .lexy-shared-x-in-reverse,
+  .lexy-shared-x-out,
+  .lexy-shared-x-out-reverse,
+  .lexy-shared-y-in,
+  .lexy-shared-y-out {
+    animation: none;
+  }
+}
+
+@keyframes lexy-state-enter {
+  from {
+    opacity: 0;
+    transform: translateY(2px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Keyframes de los patrones Material 3 (Nivel 2) ── */
+@keyframes lexy-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes lexy-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes lexy-fade-through-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes lexy-fade-through-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes lexy-shared-x-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes lexy-shared-x-in-reverse {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes lexy-shared-x-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+@keyframes lexy-shared-x-out-reverse {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+@keyframes lexy-shared-y-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes lexy-shared-y-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* Fuente global del sistema de diseño. La carga (@import de la fuente) vive en
+   el entrypoint CSS porque debe ir antes de @import "tailwindcss". */
+@layer base {
+  :root {
+    --sidebar-background: 240 7% 97%;
+    --sidebar-foreground: 225 6% 13%;
+    --sidebar-primary: 239 62% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 239 63% 94%;
+    --sidebar-accent-foreground: 239 62% 55%;
+    --sidebar-border: 240 9% 93%;
+    --sidebar-ring: 239 62% 55%;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+    /* Cuerpo con el tracking sutil de Linear (−0.05px a 16px). Los titulares
+       reciben su rampa negativa vía --text-*--letter-spacing. */
+    letter-spacing: -0.003em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
