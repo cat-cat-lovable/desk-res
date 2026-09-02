@@ -10,6 +10,7 @@ import {
 } from "@/shared/components/base/Card";
 import { Input } from "@/shared/components/base/Input";
 import { Label } from "@/shared/components/base/Label";
+import { Logo } from "@/shared/components/base/Logo";
 
 // Acceso al Desk ReS (mundo CRM): una sola tarea, foco único. Auth mock —
 // cualquier correo/clave no vacíos entra (readme-logica-res.md §12). Se lee
@@ -37,7 +38,8 @@ export function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-margin-mobile">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-secondary px-margin-mobile">
+      <Logo layout="vertical" className="h-20 w-auto" />
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-brand-navy">Desk ReS</CardTitle>

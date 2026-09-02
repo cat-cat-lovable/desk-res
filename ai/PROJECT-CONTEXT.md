@@ -841,3 +841,9 @@ confirma que no hay parte cliente en este proyecto.
   canvas gris (`bg-secondary`, sin cambios) < tarjeta blanca
   (`bg-background`, el default de `Card`, sin override) < panel
   desplegado con lavado de marca (`bg-sidebar-hover`).
+- 2026-08-29: **Login** (`src/features/Login.tsx`) — se agregó el
+  isotipo/wordmark de Lexy (`Logo` de `src/shared/components/base/`,
+  `layout="vertical"`, `h-12`) centrado arriba de la card, y el fondo de
+  la pantalla pasó de `bg-background` (blanco plano) a `bg-secondary`
+  (el mismo gris que ahora usa `DeskResDesk` como canvas), para que el
+  login no se sienta plano ni desconectado del resto de la app.
