@@ -470,7 +470,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
         </AccordionPrimitive.Content>
 
         <Separator className="bg-border-subtle" />
-        <CardFooter className="justify-end gap-2 bg-footer-muted">
+        <CardFooter className="justify-end gap-2">
           <Button
             size="icon"
             variant="ghost"

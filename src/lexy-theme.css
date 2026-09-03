@@ -165,7 +165,6 @@
   --color-sidebar-accent-foreground: var(--color-primary);
   --color-sidebar-border: var(--color-border-subtle);
   --color-sidebar-ring: #4648d4;
-  --color-footer-muted: color-mix(in oklab, var(--color-primary) 12%, var(--color-surface-subtle)); /* gris azuladito claro · pies de tarjeta */
 
   /* ── Series de datos (charts) — DEC-009.
         Paleta categórica propia y vívida. Los datos nunca reutilizan el índigo
