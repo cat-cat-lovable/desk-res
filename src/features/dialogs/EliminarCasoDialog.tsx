@@ -3,8 +3,6 @@ import { AppDialog } from "@/shared/components/base/AppDialog";
 import { toast } from "@/shared/components/base/Toaster";
 import type { Caso } from "@/shared/types/caso";
 
-import { CobroAnteriorSummary } from "../CobroAnteriorSummary";
-
 export interface EliminarCasoDialogProps {
   caso: Caso | null;
   open: boolean;
@@ -36,8 +34,6 @@ export function EliminarCasoDialog({ caso, open, onOpenChange, onSaved }: Elimin
       confirmLabel="Eliminar caso"
       confirmVariant="destructive"
       onConfirm={handleConfirm}
-    >
-      <CobroAnteriorSummary cobro={caso.cobroAnterior} />
-    </AppDialog>
+    />
   );
 }

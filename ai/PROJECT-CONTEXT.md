@@ -900,3 +900,45 @@ confirma que no hay parte cliente en este proyecto.
     lateral que el resto del contenido en vez de tocar las esquinas.
   `tsc`/`eslint`/`prettier` en verde; confirmado con `curl` al CSS
   servido que los tonos `info`/`brand-navy` nuevos compilan.
+- 2026-08-29: Quinta pasada de diseño, con captura de pantalla de la
+  tarjeta como referencia y correcciones sobre la pasada anterior:
+  - **"Campo en recuadro" también en las modales** que muestran cobro
+    anterior: `CobroAnteriorSummary` (`src/features/`) tenía su propio
+    `Campo` local sin recuadro — ahora usa el mismo tratamiento que
+    `CasoCard` (`rounded-md border border-border-subtle bg-background
+    px-2.5 py-1.5`, mismos tamaños de label/valor). Afecta a
+    `NuevoCobroDialog` y `ConfirmarReembolsoBajaDialog` (los dos diálogos
+    activos que lo usan); también a `EditarCasoDialog`/
+    `IniciarEvaluacionDialog`, que están sin cablear pero comparten el
+    componente.
+  - **Corrección de líneas divisorias** — el diseñador aclaró que era al
+    revés de como había quedado: la línea de **arriba** (entre el
+    encabezado y el desplegable) es la que debe llevar espaciado a los
+    costados (antes era `border-t` en `CardContent`, de borde a borde;
+    ahora es un `<Separator>` propio envuelto en
+    `px-(--card-inset)`), y la línea de **abajo** (antes del pie) vuelve a
+    ir de borde a borde (se sacó el wrapper con padding que se le había
+    agregado en la pasada anterior).
+  - **Grilla "Servicio/Abogado a cargo/Abogado vendedor/Servicio destino"
+    centrada:** pasó de `grid` (que dejaba espacio muerto a la derecha
+    cuando faltaba algún campo) a `flex flex-wrap justify-center gap-3`
+    con cada campo envuelto en `w-full sm:w-56`, así los recuadros quedan
+    centrados como grupo sea cual sea la cantidad de campos con valor
+    ("Servicio destino" solo aparece si el caso lo tiene).
+  - **Se invirtieron los colores entre el panel general y los
+    desplegables internos:** el panel que envuelve todo el contenido
+    desplegado de la tarjeta pasó de `bg-sidebar-hover` a
+    `bg-brand-lavender/10` (el que antes tenían los acordeones
+    individuales); los acordeones "Información post-venta" y "Detalle de
+    la derivación"/"Acta de derivación" pasaron de
+    `border-brand-lavender/25 bg-brand-lavender/10` a `border-border-subtle
+    bg-sidebar-hover` (el que antes tenía el panel general). Resultado:
+    el color más vívido (lavanda de marca) ahora está en el contenedor
+    grande, y el más sutil (lavado `sidebar-hover`) en los acordeones
+    anidados, para que no compitan visualmente con los recuadros blancos
+    de cada campo.
+  - **`EliminarCasoDialog`** ("Eliminar caso") ya no muestra
+    `CobroAnteriorSummary` — se sacó esa información, la modal queda solo
+    con la confirmación ("¿Está seguro de eliminar el caso?", vía la
+    `description` de `AppDialog`) y el botón destructivo.
+  `tsc`/`eslint`/`prettier` en verde.

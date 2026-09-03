@@ -115,19 +115,32 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
         </CardHeader>
 
         <AccordionPrimitive.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down motion-reduce:data-[state=closed]:animate-none motion-reduce:data-[state=open]:animate-none">
-          <CardContent className="border-t border-border-subtle pt-4">
-            <div className="space-y-4 rounded-lg bg-sidebar-hover p-4">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
-                <Campo label="Servicio" value={caso.servicio} />
-                <Campo label="Abogado a cargo" value={caso.abogadoTramitador} />
-                <Campo label="Abogado vendedor" value={caso.abogadoVendedor} />
-                <Campo label="Servicio destino" value={caso.servicioDestino} />
+          <div className="px-(--card-inset)">
+            <Separator className="bg-border-subtle" />
+          </div>
+          <CardContent className="pt-4">
+            <div className="space-y-4 rounded-lg bg-brand-lavender/10 p-4">
+              <div className="flex flex-wrap justify-center gap-3">
+                <div className="w-full sm:w-56">
+                  <Campo label="Servicio" value={caso.servicio} />
+                </div>
+                <div className="w-full sm:w-56">
+                  <Campo label="Abogado a cargo" value={caso.abogadoTramitador} />
+                </div>
+                <div className="w-full sm:w-56">
+                  <Campo label="Abogado vendedor" value={caso.abogadoVendedor} />
+                </div>
+                {caso.servicioDestino && (
+                  <div className="w-full sm:w-56">
+                    <Campo label="Servicio destino" value={caso.servicioDestino} />
+                  </div>
+                )}
               </div>
 
               {tieneCajaVentas && (
                 <Accordion
                   type="multiple"
-                  className="rounded-lg border border-brand-lavender/25 bg-brand-lavender/10 px-3"
+                  className="rounded-lg border border-border-subtle bg-sidebar-hover px-3"
                 >
                   <AccordionItem value="caja-ventas" className="border-none">
                     <AccordionTrigger iconPosition="start" className="py-3">
@@ -192,7 +205,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
               {(tieneDetalleDerivacion || tieneActa) && (
                 <Accordion
                   type="multiple"
-                  className="rounded-lg border border-brand-lavender/25 bg-brand-lavender/10 px-3"
+                  className="rounded-lg border border-border-subtle bg-sidebar-hover px-3"
                 >
                   {tieneDetalleDerivacion && caso.detalleDerivacion && (
                     <AccordionItem
@@ -466,9 +479,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
           </CardContent>
         </AccordionPrimitive.Content>
 
-        <div className="px-(--card-inset)">
-          <Separator className="bg-border-subtle" />
-        </div>
+        <Separator className="bg-border-subtle" />
         <CardFooter className="justify-end gap-2 bg-muted/50">
           <Button
             size="icon"
