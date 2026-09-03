@@ -8,6 +8,7 @@ const tagVariants = cva("inline-flex select-none items-center gap-1 border font-
     tone: {
       gray: "border-border bg-secondary text-secondary-foreground",
       brand: "border-primary/20 bg-primary/10 text-primary",
+      info: "border-info/20 bg-info/10 text-info",
       success: "border-success/30 bg-success/10 text-success-strong",
       warning: "border-warning/30 bg-warning/10 text-warning-strong",
       danger: "border-destructive/20 bg-destructive/10 text-destructive",

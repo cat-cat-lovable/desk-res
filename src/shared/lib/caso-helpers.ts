@@ -15,6 +15,25 @@ export const TIPO_CASO_TONE: Record<TipoCaso, TagProps["tone"]> = {
   derivacion: "brand",
 };
 
+/**
+ * Tono de la píldora de motivo/resultado (junto a la de tipo de caso, en el
+ * encabezado de `CasoCard`): distingue visualmente los 3 motivos de
+ * reevaluación entre sí. El resto de los valores (reembolso, modificación
+ * de contrato) quedan en gris neutro, no tienen esta distinción pedida.
+ */
+export function motivoTone(caso: Caso): TagProps["tone"] {
+  if (caso.motivo === "Cambio de servicio" || caso.resultado === "Derivación a otro servicio") {
+    return "info";
+  }
+  if (caso.motivo === "Posible baja" || caso.resultado === "Dar de baja") {
+    return "danger";
+  }
+  if (caso.motivo === "Posible mal vendido") {
+    return "warning";
+  }
+  return "gray";
+}
+
 export type AccionPrincipal = {
   label: string;
   kind:

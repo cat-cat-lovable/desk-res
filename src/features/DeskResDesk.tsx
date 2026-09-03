@@ -156,25 +156,27 @@ export function DeskResDesk() {
       />
 
       <Popover open={filtrosAbiertos} onOpenChange={setFiltrosAbiertos}>
-        <div className="fixed left-4 top-20 z-40">
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="Filtros"
-              className="relative shadow-raised"
-            >
-              <ListFilter className="size-(--icon-size-control)" aria-hidden="true" />
-              {!filtrosAbiertos && filtrosActivos > 0 && (
-                <Badge
-                  size="sm"
-                  className="absolute -right-1.5 -top-1.5 min-w-4 justify-center px-1"
-                >
-                  {filtrosActivos}
-                </Badge>
-              )}
-            </Button>
-          </PopoverTrigger>
+        <div className="pointer-events-none fixed inset-x-0 top-20 z-40">
+          <div className="pointer-events-auto mx-auto max-w-[1060px] px-4 md:px-6 lg:px-8">
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Filtros"
+                className="relative shadow-raised"
+              >
+                <ListFilter className="size-(--icon-size-control)" aria-hidden="true" />
+                {!filtrosAbiertos && filtrosActivos > 0 && (
+                  <Badge
+                    size="sm"
+                    className="absolute -right-1.5 -top-1.5 min-w-4 justify-center px-1"
+                  >
+                    {filtrosActivos}
+                  </Badge>
+                )}
+              </Button>
+            </PopoverTrigger>
+          </div>
         </div>
         <PopoverContent
           side="bottom"
@@ -252,11 +254,11 @@ export function DeskResDesk() {
                     ? "Todavía no hay casos por evaluar."
                     : "Todavía no hay casos resueltos."}
               </EmptyTitle>
-              <EmptyDescription className="rounded-lg bg-surface-container px-4 py-3">
+              <EmptyDescription className="rounded-lg border border-dashed border-brand-navy/30 px-4 py-3 text-brand-navy">
                 {filtrosActivos > 0
                   ? "Prueba con otra búsqueda o limpia los filtros."
                   : tab === "activos"
-                    ? "Presiona '+ Nuevo caso' para registrar uno: puede ser una reevaluación de continuidad, una solicitud de reembolso o el alta de un nuevo acreedor."
+                    ? "Presiona '+ Nuevo caso' para registrar uno nuevo: puede ser una reevaluación de servicio (que implica baja, derivación o mal vendido), una solicitud de reembolso o la generación de un nuevo cobro."
                     : "Cuando cierres un caso desde 'En evaluación', va a aparecer aquí junto con su resultado final."}
               </EmptyDescription>
             </EmptyHeader>

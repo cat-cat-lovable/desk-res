@@ -8,7 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/shared/components/base/Accordion";
-import { Badge } from "@/shared/components/base/Badge";
 import { Button } from "@/shared/components/base/Button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/base/Card";
 import { Separator } from "@/shared/components/base/Separator";
@@ -17,6 +16,7 @@ import type { AccionPrincipal } from "@/shared/lib/caso-helpers";
 import {
   accionPrincipal,
   ESTADO_NUEVO_COBRO_INFO,
+  motivoTone,
   TIPO_CASO_LABEL,
   TIPO_CASO_TONE,
 } from "@/shared/lib/caso-helpers";
@@ -26,7 +26,7 @@ import type { Caso } from "@/shared/types/caso";
 function Campo({ label, value }: { label: string; value: React.ReactNode }) {
   if (value === undefined || value === null || value === "") return null;
   return (
-    <div className="min-w-0">
+    <div className="min-w-0 rounded-md border border-border-subtle bg-background px-2.5 py-1.5">
       <p className="type-supporting font-semibold text-foreground">{label}</p>
       <p className="type-meta truncate text-muted-foreground">{value}</p>
     </div>
@@ -86,7 +86,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
                     {resuelto && <Tag tone="success">Resuelto</Tag>}
                   </div>
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                    <p className="type-supporting truncate text-muted-foreground">
+                    <p className="type-meta truncate text-muted-foreground">
                       {caso.cliente.correo}
                     </p>
                     <span className="text-border-strong" aria-hidden="true">
@@ -105,9 +105,9 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
                   )}
                 </div>
                 {(caso.motivo || caso.resultado) && (
-                  <Badge variant="outline" className="shrink-0">
+                  <Tag tone={motivoTone(caso)} className="shrink-0">
                     {caso.resultado ?? caso.motivo}
-                  </Badge>
+                  </Tag>
                 )}
               </button>
             </AccordionPrimitive.Trigger>
@@ -466,8 +466,10 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
           </CardContent>
         </AccordionPrimitive.Content>
 
-        <Separator className="bg-border-subtle" />
-        <CardFooter className="justify-end gap-2">
+        <div className="px-(--card-inset)">
+          <Separator className="bg-border-subtle" />
+        </div>
+        <CardFooter className="justify-end gap-2 bg-muted/50">
           <Button
             size="icon"
             variant="ghost"

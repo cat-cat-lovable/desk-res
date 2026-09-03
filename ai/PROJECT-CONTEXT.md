@@ -847,3 +847,56 @@ confirma que no hay parte cliente en este proyecto.
   la pantalla pasó de `bg-background` (blanco plano) a `bg-secondary`
   (el mismo gris que ahora usa `DeskResDesk` como canvas), para que el
   login no se sienta plano ni desconectado del resto de la app.
+- 2026-08-29: Cuarta pasada de diseño visual (`CasoCard`/`DeskResDesk`), a
+  pedido del diseñador, con imagen de referencia para el patrón de campos:
+  - **Botón de filtros:** dejó de ser `fixed left-4` (pegado al borde del
+    navegador, independiente del ancho de la lista) y pasó a vivir dentro
+    de un contenedor con el mismo `max-w-[1060px] mx-auto px-4 md:px-6
+    lg:px-8` que usa `<main>` — así su borde izquierdo cae siempre en el
+    mismo punto que el borde izquierdo real de las tarjetas, en cualquier
+    ancho de pantalla. El wrapper externo es `pointer-events-none` (ocupa
+    todo el ancho) y el interno (con el padding real) es
+    `pointer-events-auto`, para no bloquear clics fuera del botón.
+  - **Empty state:** `EmptyDescription` (en `DeskResDesk.tsx`) ganó borde
+    punteado + texto en `text-brand-navy` (mismo token del login). Cambió
+    el texto del estado "Todavía no hay casos por evaluar" a: "Presiona
+    '+ Nuevo caso' para registrar uno nuevo: puede ser una reevaluación de
+    servicio (que implica baja, derivación o mal vendido), una solicitud
+    de reembolso o la generación de un nuevo cobro." — reemplaza el texto
+    anterior, que mencionaba "alta de un nuevo acreedor" en vez de
+    "generación de un nuevo cobro".
+  - **Patrón "campo en recuadro"** (con imagen de referencia): el
+    componente local `Campo` de `CasoCard.tsx` —usado en absolutamente
+    todos los desplegables y secciones de la tarjeta— ganó
+    `rounded-md border border-border-subtle bg-background px-2.5 py-1.5`.
+    Sobre el fondo lavanda de los desplegables (pasada anterior), el
+    recuadro blanco de cada campo contrasta y se lee como una ficha
+    individual; sobre el cuerpo blanco de la tarjeta (grilla "Servicio"/
+    "Abogado a cargo"), el borde solo alcanza para delimitarlo. No se tocó
+    la jerarquía tipográfica label/valor decidida en la pasada anterior
+    (label más grande que el valor) — la imagen de referencia mostraba lo
+    contrario (label chico, valor grande), pero se priorizó no revertir
+    una decisión explícita más reciente del diseñador sin que lo pidiera
+    de nuevo; si la quiere invertida, es un cambio de una línea.
+  - **Píldora de motivo con color:** el `Badge variant="outline"` que
+    mostraba `caso.resultado ?? caso.motivo` (al lado de la píldora de
+    tipo de caso) se reemplazó por un `Tag` con tono calculado por
+    `motivoTone(caso)` (`caso-helpers.ts`, nuevo): "Cambio de servicio" /
+    "Derivación a otro servicio" → `info` (azul), "Posible baja" / "Dar de
+    baja" → `danger` (rojo), "Posible mal vendido" → `warning`
+    (anaranjado), cualquier otro valor (reembolso, modificación de
+    contrato) → `gray`, sin distinción pedida ahí. `Tag`
+    (`src/shared/components/base/Tag.tsx`) ganó el tono `info` que le
+    faltaba (`border-info/20 bg-info/10 text-info`, mismo patrón que
+    `success`/`warning`/`danger`, usando el token `--color-info` del tema
+    que nunca se había consumido en un tono de `Tag`).
+  - **Correo === ID Defensoría:** el correo del cliente en el encabezado
+    de la tarjeta bajó de `type-supporting` (14px) a `type-meta` (12px),
+    igualando el tamaño que ya tenía "ID Defensoría" en la misma fila.
+  - **Pie de la tarjeta:** `CardFooter` ganó `bg-muted/50` (fondo suave,
+    antes transparente/blanco). El `Separator` de arriba dejó de ir de
+    borde a borde de la tarjeta — ahora vive dentro de un
+    `<div className="px-(--card-inset)">`, así queda con el mismo margen
+    lateral que el resto del contenido en vez de tocar las esquinas.
+  `tsc`/`eslint`/`prettier` en verde; confirmado con `curl` al CSS
+  servido que los tonos `info`/`brand-navy` nuevos compilan.
