@@ -120,21 +120,11 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
           </div>
           <CardContent className="pt-4">
             <div className="space-y-4 rounded-lg bg-brand-lavender/10 p-4">
-              <div className="flex flex-wrap justify-center gap-3">
-                <div className="w-full sm:w-56">
-                  <Campo label="Servicio" value={caso.servicio} />
-                </div>
-                <div className="w-full sm:w-56">
-                  <Campo label="Abogado a cargo" value={caso.abogadoTramitador} />
-                </div>
-                <div className="w-full sm:w-56">
-                  <Campo label="Abogado vendedor" value={caso.abogadoVendedor} />
-                </div>
-                {caso.servicioDestino && (
-                  <div className="w-full sm:w-56">
-                    <Campo label="Servicio destino" value={caso.servicioDestino} />
-                  </div>
-                )}
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <Campo label="Servicio" value={caso.servicio} />
+                <Campo label="Abogado a cargo" value={caso.abogadoTramitador} />
+                <Campo label="Abogado vendedor" value={caso.abogadoVendedor} />
+                <Campo label="Servicio destino" value={caso.servicioDestino} />
               </div>
 
               {tieneCajaVentas && (
@@ -480,7 +470,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
         </AccordionPrimitive.Content>
 
         <Separator className="bg-border-subtle" />
-        <CardFooter className="justify-end gap-2 bg-sidebar-accent">
+        <CardFooter className="justify-end gap-2 bg-footer-muted">
           <Button
             size="icon"
             variant="ghost"
