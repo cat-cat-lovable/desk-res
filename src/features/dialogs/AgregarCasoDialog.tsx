@@ -119,9 +119,9 @@ const TACTICAS_PLACEHOLDER = "[tácticas sugeridas]";
 
 function CampoPreview({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-0">
-      <p className="type-meta text-muted-foreground">{label}</p>
-      <p className="type-body truncate text-foreground">{value}</p>
+    <div className="min-w-0 rounded-md border border-border-subtle bg-background px-2.5 py-1.5">
+      <p className="type-supporting font-semibold text-foreground">{label}</p>
+      <p className="type-meta truncate text-muted-foreground">{value}</p>
     </div>
   );
 }
