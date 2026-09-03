@@ -144,7 +144,7 @@ export function DeskResDesk() {
   };
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-background">
       <HeaderBar
         sticky
         brand={
