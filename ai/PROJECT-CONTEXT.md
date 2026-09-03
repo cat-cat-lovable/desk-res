@@ -177,6 +177,9 @@ confirma que no hay parte cliente en este proyecto.
   derivación" y "Acta de derivación" se quedaron juntas en su propio
   acordeón, en el lugar donde antes estaba el grupo combinado (después de la
   grilla).
+- 2026-09-03: `CasoCard` — el panel expandido usa `sidebar-hover`, sus
+  acordeones internos usan `sidebar-border` y la barra inferior completa usa
+  `sidebar-accent`, para mantener una jerarquía de superficies consistente.
 - 2026-08-25: `ConfirmarReembolsoBajaDialog` ("Confirmar depósito") — rediseño
   a pedido del diseñador. Ahora arriba de todo se ve "Datos para transferir"
   (titular, banco, tipo y número de cuenta, monto a transferir y cuotas —

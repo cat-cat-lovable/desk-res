@@ -63,7 +63,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
   return (
     <AccordionPrimitive.Item value={caso.id} asChild>
       <Card
-        className="animate-in fade-in slide-in-from-bottom-1 fill-mode-backwards rounded-xl duration-300"
+        className="animate-in fade-in slide-in-from-bottom-1 fill-mode-backwards rounded-xl bg-sidebar-hover duration-300"
         style={{ animationDelay: `${entradaDelayMs}ms` }}
       >
         <CardHeader className="px-0">
@@ -140,7 +140,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
               {tieneCajaVentas && (
                 <Accordion
                   type="multiple"
-                  className="rounded-lg border border-border-subtle bg-sidebar-hover px-3"
+                  className="rounded-lg border border-sidebar-border bg-sidebar-hover px-3"
                 >
                   <AccordionItem value="caja-ventas" className="border-none">
                     <AccordionTrigger iconPosition="start" className="py-3">
@@ -205,7 +205,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
               {(tieneDetalleDerivacion || tieneActa) && (
                 <Accordion
                   type="multiple"
-                  className="rounded-lg border border-border-subtle bg-sidebar-hover px-3"
+                  className="rounded-lg border border-sidebar-border bg-sidebar-hover px-3"
                 >
                   {tieneDetalleDerivacion && caso.detalleDerivacion && (
                     <AccordionItem
@@ -480,7 +480,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
         </AccordionPrimitive.Content>
 
         <Separator className="bg-border-subtle" />
-        <CardFooter className="justify-end gap-2 bg-muted/50">
+        <CardFooter className="justify-end gap-2 bg-sidebar-accent">
           <Button
             size="icon"
             variant="ghost"
