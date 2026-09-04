@@ -174,23 +174,13 @@ export function DeskResDesk() {
       />
 
       <main className="mx-auto max-w-[1060px] px-4 py-8 md:px-6 lg:px-8">
-        <div className="mb-4 grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-center">
-          <Tabs
-            value={tab}
-            onValueChange={(v) => setTab(v as Tab)}
-            className="md:col-start-2 md:row-start-1"
-          >
+        <div className="mb-4 flex justify-center">
+          <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)}>
             <TabsList>
               <TabsTrigger value="activos">En evaluación ({activos.length})</TabsTrigger>
               <TabsTrigger value="resueltos">Resueltos ({resueltos.length})</TabsTrigger>
             </TabsList>
           </Tabs>
-          <Button
-            className="md:col-start-3 md:row-start-1 md:justify-self-end"
-            onClick={() => setDialogo({ tipo: "nuevo-caso", caso: null })}
-          >
-            + Nuevo caso
-          </Button>
         </div>
         <div className="mb-6 flex flex-wrap items-center gap-2">
           <div className="min-w-56 flex-1 sm:max-w-xs">
@@ -227,6 +217,12 @@ export function DeskResDesk() {
               Limpiar
             </Button>
           )}
+          <Button
+            className="ml-auto"
+            onClick={() => setDialogo({ tipo: "nuevo-caso", caso: null })}
+          >
+            + Nuevo caso
+          </Button>
         </div>
         {casos === null ? (
           <div className="flex justify-center py-16">
