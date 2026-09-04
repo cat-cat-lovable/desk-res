@@ -61,7 +61,7 @@ export function RecepcionDerivacionDialog({
 
   if (!caso) return null;
 
-  const requiereNuevoCobro = Boolean(caso.requiereNuevoCobro);
+  const requiereAnalisisModificacionContrato = Boolean(caso.requiereAnalisisModificacionContrato);
   const puedeConfirmar =
     decision === "aceptada" || (rechazoMotivo !== "" && rechazoJustificacion.trim() !== "");
 
@@ -71,11 +71,13 @@ export function RecepcionDerivacionDialog({
         caso.id,
         {
           recepcionDerivacion: { estado: "aceptada" },
-          pasoDerivacion: requiereNuevoCobro ? "cobro" : undefined,
-          resultado: requiereNuevoCobro ? caso.resultado : "Derivación a otro servicio",
-          estadoProceso: requiereNuevoCobro ? "en-evaluacion" : "resuelto",
-          cerrado: !requiereNuevoCobro,
-          detalleResolucion: requiereNuevoCobro
+          pasoDerivacion: requiereAnalisisModificacionContrato ? "cobro" : undefined,
+          resultado: requiereAnalisisModificacionContrato
+            ? caso.resultado
+            : "Derivación a otro servicio",
+          estadoProceso: requiereAnalisisModificacionContrato ? "en-evaluacion" : "resuelto",
+          cerrado: !requiereAnalisisModificacionContrato,
+          detalleResolucion: requiereAnalisisModificacionContrato
             ? caso.detalleResolucion
             : "Derivación aceptada, sin nuevo cobro asociado.",
         },
@@ -154,9 +156,9 @@ export function RecepcionDerivacionDialog({
         {decision === "aceptada" ? (
           <div className="space-y-4">
             <p className="type-supporting rounded-control bg-muted p-3 text-muted-foreground">
-              {requiereNuevoCobro
-                ? "El acta de derivación indica que este caso requiere un nuevo cobro en Apio."
-                : "El acta de derivación indica que este caso no requiere un nuevo cobro en Apio."}
+              {requiereAnalisisModificacionContrato
+                ? "El acta de derivación indica que este caso requiere análisis de modificación de contrato antes de definir el nuevo cobro."
+                : "El acta de derivación indica que este caso no requiere análisis de modificación de contrato ni nuevo cobro."}
             </p>
           </div>
         ) : (

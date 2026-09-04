@@ -122,7 +122,7 @@ export function RevisionDerivacionDialog({
           compromisos: compromisos || undefined,
           fechaPagoPrimeraCuota: fechaPagoPrimeraCuota || undefined,
         },
-        requiereNuevoCobro,
+        requiereAnalisisModificacionContrato: requiereNuevoCobro,
         nuevoCobro: requiereNuevoCobro
           ? { estado: "pendiente", aplica: true }
           : { estado: "no-aplica", aplica: false },
@@ -139,7 +139,7 @@ export function RevisionDerivacionDialog({
           "servicioDestino",
           "evaluacionCliente",
           "actaDerivacion",
-          "requiereNuevoCobro",
+          "requiereAnalisisModificacionContrato",
           "nuevoCobro",
           "pasoDerivacion",
           "estadoProceso",
@@ -343,7 +343,7 @@ export function RevisionDerivacionDialog({
             checked={requiereNuevoCobro}
             onCheckedChange={(v) => setRequiereNuevoCobro(v === true)}
           />
-          <Label htmlFor="acta-requiere-nuevo-cobro">Requiere nuevo cobro</Label>
+          <Label htmlFor="acta-requiere-nuevo-cobro">Análisis modificación contrato</Label>
         </div>
 
         <GestionFields

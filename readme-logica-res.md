@@ -276,8 +276,10 @@ cableado de `DeskResDesk.tsx` (import, tipo de diálogo y el componente en el
    (pestaña "En evaluación") y la tarjeta se queda **sin acción principal** —
    no hay paso de confirmación manual en la app. El paso a "Resuelto" lo hace
    Apio cuando el cliente acepta el cobro, fuera de este prototipo. El motivo
-   "Por derivación de servicio" no tiene esta excepción: sigue el flujo
-   genérico de `NuevoCobroDialog`.
+   "Otros" (2026-09-04, antes "Por derivación de servicio" — el diseñador
+   pidió que las únicas opciones del selector sean "Agregar nuevo acreedor"
+   u "Otros") no tiene esta excepción: sigue el flujo genérico de
+   `NuevoCobroDialog`.
 
 ### Revisión de mal vendido (`RevisionMalVendidoDialog`)
 
@@ -438,8 +440,12 @@ del equipo receptor apruebe o rechace la recepción.
     siguiente a pedido del diseñador — ya no existe en el modelo
     (`CircunstanciaCambioServicio`/`CIRCUNSTANCIAS_CAMBIO_SERVICIO` se
     borraron de `caso.ts`).
-  - **Requiere nuevo cobro** (checkbox, al final): lo decide el capitán que
-    deriva al crear el caso.
+  - **Análisis modificación contrato** (checkbox, al final, renombrado
+    2026-09-04 — antes "Requiere nuevo cobro"): lo decide el capitán que
+    deriva al crear el caso, marcándolo **solo** cuando cree que el caso
+    requiere modificación del contrato. Chico, debajo del checkbox, un
+    texto aclara ese criterio. Campo del modelo:
+    `requiereAnalisisModificacionContrato` (antes `requiereNuevoCobro`).
   - Al confirmar "Crear caso": el caso nace **directo en `estadoProceso =
     "en-evaluacion"` con `pasoDerivacion = "recepcion"`** (no pasa por "por
     evaluar" como el resto de los tipos de caso) — junto con
@@ -456,14 +462,36 @@ del equipo receptor apruebe o rechace la recepción.
   desplegable de `CasoCard`, la modal no debe repetirla). El capitán
   receptor abre el caso, revisa el acta en la tarjeta, y usa "Resolver"
   solo para registrar la decisión.
-  - **Acepta** → si el acta marcó que requiere nuevo cobro, sigue a
-    `NuevoCobroDialog` (`pasoDerivacion = "cobro"`); si no, cierra directo
-    como `"Derivación a otro servicio"`. (2026-08-28: se sacó el selector
-    "Capitán receptor" — el diseñador pidió quitarlo. `capitanACargo` ya no
-    cambia al aceptar; el campo `capitanReceptor` se sacó del todo del
-    modelo, junto con el chip "Receptor {capitán}" que mostraba `CasoCard`
-    —ese chip nunca llegó a verse en la práctica, porque solo se activaba
-    con `tipoCaso === "derivacion"`, un valor que nunca se asigna—.)
+  - **Acepta** → si el acta marcó "Análisis modificación contrato", sigue a
+    `AnalisisModificacionContratoDialog` (`pasoDerivacion = "cobro"`); si
+    no, cierra directo como `"Derivación a otro servicio"`. (2026-08-28: se
+    sacó el selector "Capitán receptor" — el diseñador pidió quitarlo.
+    `capitanACargo` ya no cambia al aceptar; el campo `capitanReceptor` se
+    sacó del todo del modelo, junto con el chip "Receptor {capitán}" que
+    mostraba `CasoCard` —ese chip nunca llegó a verse en la práctica,
+    porque solo se activaba con `tipoCaso === "derivacion"`, un valor que
+    nunca se asigna—.)
+  - > **Nota (2026-09-04):** se agregó un paso intermedio entre la
+    > recepción y `NuevoCobroDialog`. Antes, aceptar con "Requiere nuevo
+    > cobro" marcado saltaba directo a definir el cobro; ahora
+    > `AnalisisModificacionContratoDialog` (`src/features/dialogs/`) es el
+    > único paso de "Resolver" cuando `pasoDerivacion === "cobro"`: la
+    > capitana decide primero si **procede o no** la modificación de
+    > contrato (`modificacionContratoProcede: "si" | "no"`).
+    > - **Procede** → el mismo diálogo muestra el contexto de la
+    >   derivación (`ContextoDerivacionSummary` + `CobroAnteriorSummary`,
+    >   igual que antes en `NuevoCobroDialog`) y pide Valor contrato +
+    >   Cuotas; al confirmar, `nuevoCobro.estado` salta directo a
+    >   `"esperando-cliente"` (mismo criterio que el resto de los flujos de
+    >   nuevo cobro) y el caso sigue "En evaluación".
+    > - **No procede** → solo pide una justificación obligatoria
+    >   (`modificacionContratoJustificacion`); el caso se cierra igual como
+    >   `"Derivación a otro servicio"` (sin nuevo cobro) — la derivación en
+    >   sí no se revierte, solo queda sin modificación de contrato.
+    > `NuevoCobroDialog` deja de ser parte del flujo de derivación: hoy
+    > solo lo usa el tipo de caso "Modificación de contrato" (motivo
+    > "Otros", ver más abajo). El escrito `requiereNuevoCobro: true` que
+    > tenía al confirmar se sacó por no tener ya ningún lector.
   - **Rechaza** (reescrito 2026-08-28): ya no hay un motivo de rechazo libre
     que reabre el caso como Mal Vendido automáticamente. El caso se cierra
     con una **justificación obligatoria** (`rechazoRecepcionJustificacion`)

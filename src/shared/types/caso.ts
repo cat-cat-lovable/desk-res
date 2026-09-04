@@ -30,11 +30,10 @@ export const CAMINOS_MAL_VENDIDO = [
 ] as const;
 export type CaminoMalVendido = (typeof CAMINOS_MAL_VENDIDO)[number];
 
-export const MOTIVOS_MODIFICACION_CONTRATO = [
-  "Por derivación de servicio",
-  "Agregar nuevo acreedor",
-] as const;
+export const MOTIVOS_MODIFICACION_CONTRATO = ["Agregar nuevo acreedor", "Otros"] as const;
 export type MotivoModificacionContrato = (typeof MOTIVOS_MODIFICACION_CONTRATO)[number];
+
+export type ProcedeModificacionContrato = "si" | "no";
 
 export const MOTIVOS_BAJA = [
   "Baja voluntaria",
@@ -249,7 +248,9 @@ export type Caso = {
   rechazoRecepcionJustificacion?: string;
   antecedentesDerivacion?: string;
   nuevoCobro?: NuevoCobro;
-  requiereNuevoCobro?: boolean;
+  requiereAnalisisModificacionContrato?: boolean;
+  modificacionContratoProcede?: ProcedeModificacionContrato;
+  modificacionContratoJustificacion?: string;
   casosVinculados?: CasoVinculado[];
 
   fechaGestion?: string;

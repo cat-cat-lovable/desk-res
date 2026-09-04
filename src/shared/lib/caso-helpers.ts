@@ -38,6 +38,7 @@ export type AccionPrincipal = {
   label: string;
   kind:
     | "recepcion-derivacion"
+    | "analisis-modificacion-contrato"
     | "nuevo-cobro"
     | "generar-nuevo-cobro"
     | "revisar-mal-vendido"
@@ -109,14 +110,19 @@ export function accionPrincipal(caso: Caso): AccionPrincipal | null {
     return { label: "Resolver", kind: "recepcion-derivacion" };
   }
 
+  if (caso.pasoDerivacion === "cobro") {
+    // El equipo receptor aceptó la derivación y el acta marcó que requiere
+    // análisis de modificación de contrato: antes de definir el nuevo
+    // cobro, la capitana decide si procede o no (ver
+    // AnalisisModificacionContratoDialog).
+    return { label: "Resolver", kind: "analisis-modificacion-contrato" };
+  }
+
   if (caso.pendienteConfirmacion === "reembolso-baja") {
     return { label: "Confirmar depósito", kind: "confirmar-deposito" };
   }
 
-  if (
-    caso.pendienteConfirmacion === "nuevo-cobro" ||
-    (caso.requiereNuevoCobro && caso.nuevoCobro)
-  ) {
+  if (caso.pendienteConfirmacion === "nuevo-cobro") {
     return { label: "Definir nuevo cobro", kind: "nuevo-cobro" };
   }
 

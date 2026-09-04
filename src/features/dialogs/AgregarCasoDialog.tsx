@@ -96,8 +96,7 @@ const TIPOS_NUEVO_CASO: {
   {
     value: "modificacion-contrato",
     titulo: "Modificación de contrato",
-    descripcion:
-      "El contrato del cliente debe modificarse: por derivación de servicio o para incorporar un nuevo acreedor.",
+    descripcion: "El contrato del cliente debe modificarse: agregar un nuevo acreedor u otros.",
     dot: "bg-success",
   },
 ];
@@ -166,7 +165,8 @@ export function AgregarCasoDialog({ open, onOpenChange, onSaved }: AgregarCasoDi
     ServicioDerivacion | ""
   >("");
   const [actaDerivacionAnteriorMotivo, setActaDerivacionAnteriorMotivo] = React.useState("");
-  const [actaRequiereNuevoCobro, setActaRequiereNuevoCobro] = React.useState(false);
+  const [actaRequiereAnalisisModificacionContrato, setActaRequiereAnalisisModificacionContrato] =
+    React.useState(false);
   const [motivoSolicitud, setMotivoSolicitud] = React.useState("");
   const [motivoModificacionContrato, setMotivoModificacionContrato] = React.useState<
     MotivoModificacionContrato | ""
@@ -213,7 +213,7 @@ export function AgregarCasoDialog({ open, onOpenChange, onSaved }: AgregarCasoDi
       "El cliente se compromete a mantener los pagos al día en el nuevo servicio.",
     );
     setActaFechaPagoPrimeraCuota("");
-    setActaRequiereNuevoCobro(false);
+    setActaRequiereAnalisisModificacionContrato(false);
     setMotivoSolicitud("Solicita reembolso por prueba de flujo.");
     setGestionesEquipo("Gestión registrada como prueba de flujo.");
     setMotivoModificacionContrato(MOTIVOS_MODIFICACION_CONTRATO[0]);
@@ -309,9 +309,11 @@ export function AgregarCasoDialog({ open, onOpenChange, onSaved }: AgregarCasoDi
       resultado: esCambioServicio ? "Derivación a otro servicio" : undefined,
       evaluacionCliente: esCambioServicio ? { estado: "aceptada" } : undefined,
       pasoDerivacion: esCambioServicio ? "recepcion" : undefined,
-      requiereNuevoCobro: esCambioServicio ? actaRequiereNuevoCobro : undefined,
+      requiereAnalisisModificacionContrato: esCambioServicio
+        ? actaRequiereAnalisisModificacionContrato
+        : undefined,
       nuevoCobro: esCambioServicio
-        ? actaRequiereNuevoCobro
+        ? actaRequiereAnalisisModificacionContrato
           ? { estado: "pendiente", aplica: true }
           : { estado: "no-aplica", aplica: false }
         : undefined,
@@ -383,7 +385,7 @@ export function AgregarCasoDialog({ open, onOpenChange, onSaved }: AgregarCasoDi
         "resultado",
         "evaluacionCliente",
         "pasoDerivacion",
-        "requiereNuevoCobro",
+        "requiereAnalisisModificacionContrato",
         "nuevoCobro",
         "actaDerivacion",
         "motivoModificacionContrato",
@@ -886,13 +888,23 @@ export function AgregarCasoDialog({ open, onOpenChange, onSaved }: AgregarCasoDi
                       </div>
 
                       <Separator />
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id="acta-requiere-nuevo-cobro"
-                          checked={actaRequiereNuevoCobro}
-                          onCheckedChange={(v) => setActaRequiereNuevoCobro(v === true)}
-                        />
-                        <Label htmlFor="acta-requiere-nuevo-cobro">Requiere nuevo cobro</Label>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="acta-requiere-analisis-modificacion-contrato"
+                            checked={actaRequiereAnalisisModificacionContrato}
+                            onCheckedChange={(v) =>
+                              setActaRequiereAnalisisModificacionContrato(v === true)
+                            }
+                          />
+                          <Label htmlFor="acta-requiere-analisis-modificacion-contrato">
+                            Análisis modificación contrato
+                          </Label>
+                        </div>
+                        <p className="type-meta pl-6 text-muted-foreground">
+                          Marca esta opción solo cuando creas que el caso requiere modificación del
+                          contrato.
+                        </p>
                       </div>
                     </div>
                   )}

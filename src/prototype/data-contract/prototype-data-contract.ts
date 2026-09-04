@@ -378,9 +378,9 @@ const caso: EntitySpec = {
     motivoModificacionContrato: {
       id: "motivoModificacionContrato",
       productDescription:
-        "Motivo por el que se modifica el contrato del cliente (por ahora: derivación de servicio o incorporación de un nuevo acreedor).",
+        "Motivo por el que se modifica el contrato del cliente (incorporación de un nuevo acreedor, u otros).",
       dataType: "enum",
-      enumValues: ["Por derivación de servicio", "Agregar nuevo acreedor"],
+      enumValues: ["Agregar nuevo acreedor", "Otros"],
       required: false,
       usage: { visible: true, editable: true, calculated: false, technical: false },
       usedIn: usedInDesk,
@@ -572,14 +572,46 @@ const caso: EntitySpec = {
       usage: { visible: true, editable: false, calculated: false, technical: false },
       usedIn: usedInDesk,
     }),
-    requiereNuevoCobro: lexyField({
-      id: "requiereNuevoCobro",
-      productDescription: "Si la derivación requiere generar un nuevo cobro en Apio.",
+    requiereAnalisisModificacionContrato: lexyField({
+      id: "requiereAnalisisModificacionContrato",
+      productDescription:
+        "Si el capitán que deriva cree que el caso requiere análisis de modificación de contrato, marcado al llenar el acta de derivación. De ser así, antes de definir el nuevo cobro la capitana debe indicar si procede o no la modificación.",
       dataType: "boolean",
       required: false,
       usage: { visible: true, editable: true, calculated: false, technical: false },
       usedIn: usedInDesk,
     }),
+    modificacionContratoProcede: {
+      id: "modificacionContratoProcede",
+      productDescription:
+        "Si la capitana confirma que procede la modificación de contrato, al resolver un caso de derivación que requiere este análisis. Si no procede, el caso igual queda derivado, sin nuevo cobro.",
+      dataType: "enum",
+      enumValues: ["si", "no"],
+      required: false,
+      usage: { visible: true, editable: true, calculated: false, technical: false },
+      usedIn: usedInDesk,
+      origin: "generatedByUsability",
+      source: { kind: "unknown" },
+      dataClassification: "internal",
+      technicalValidation: pendingBackend(
+        "Dato propuesto por usabilidad para el subflujo de análisis de modificación de contrato dentro de derivación. TI debe confirmar si esta revisión ya existe en el CRM de origen o es exclusiva del Desk ReS.",
+      ),
+    },
+    modificacionContratoJustificacion: {
+      id: "modificacionContratoJustificacion",
+      productDescription:
+        "Justificación de la capitana de por qué no procede la modificación de contrato.",
+      dataType: "string",
+      required: false,
+      usage: { visible: true, editable: true, calculated: false, technical: false },
+      usedIn: usedInDesk,
+      origin: "generatedByUsability",
+      source: { kind: "unknown" },
+      dataClassification: "internal",
+      technicalValidation: pendingBackend(
+        "Dato propuesto por usabilidad para el subflujo de análisis de modificación de contrato dentro de derivación. TI debe confirmar si esta revisión ya existe en el CRM de origen o es exclusiva del Desk ReS.",
+      ),
+    },
     detalleResolucion: lexyField({
       id: "detalleResolucion",
       productDescription: "Resumen de la resolución de cierre del caso.",

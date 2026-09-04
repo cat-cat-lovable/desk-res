@@ -440,9 +440,20 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
                           }
                         />
                       )}
+                      {caso.modificacionContratoProcede && (
+                        <Campo
+                          label="¿Procede modificación de contrato?"
+                          value={
+                            caso.modificacionContratoProcede === "si" ? "Sí procede" : "No procede"
+                          }
+                        />
+                      )}
                     </div>
                     {caso.malVendidoJustificacion && (
                       <p className="text-foreground">{caso.malVendidoJustificacion}</p>
+                    )}
+                    {caso.modificacionContratoJustificacion && (
+                      <p className="text-foreground">{caso.modificacionContratoJustificacion}</p>
                     )}
                     {caso.malVendidoCaminoSugerido && (
                       <p className="type-supporting text-muted-foreground">

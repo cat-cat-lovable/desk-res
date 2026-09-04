@@ -68,7 +68,6 @@ export function NuevoCobroDialog({
     await actualizarCaso(
       caso.id,
       {
-        requiereNuevoCobro: true,
         nuevoCobro: {
           estado: "esperando-cliente",
           aplica: true,
@@ -84,7 +83,7 @@ export function NuevoCobroDialog({
       {
         description: "Se genera el nuevo cobro en Apio",
         trigger: "Diálogo de nuevo cobro",
-        fields: ["requiereNuevoCobro", "nuevoCobro", "estadoProceso", "cerrado"],
+        fields: ["nuevoCobro", "estadoProceso", "cerrado"],
       },
     );
     toast.success("Nuevo cobro generado", {

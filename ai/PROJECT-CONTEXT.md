@@ -945,3 +945,34 @@ confirma que no hay parte cliente en este proyecto.
     con la confirmación ("¿Está seguro de eliminar el caso?", vía la
     `description` de `AppDialog`) y el botón destructivo.
   `tsc`/`eslint`/`prettier` en verde.
+- 2026-09-04: Cambio de lógica de negocio en el flujo de derivación (no
+  visual), a pedido del diseñador — ver readme-logica-res.md § "Revisión de
+  derivación" (actualizado) para el detalle completo:
+  - El checkbox del acta de derivación se renombra de "Requiere nuevo
+    cobro" a **"Análisis modificación contrato"**, con un texto chico
+    debajo aclarando que solo se marca cuando el capitán cree que el caso
+    requiere modificación del contrato. Campo del modelo renombrado en
+    cascada: `requiereNuevoCobro` → `requiereAnalisisModificacionContrato`
+    (`Caso`, `AgregarCasoDialog`, `RecepcionDerivacionDialog`,
+    `caso-helpers.ts`, contrato de datos).
+  - Nuevo diálogo **`AnalisisModificacionContratoDialog`**
+    (`src/features/dialogs/`): se inserta entre "Recepción de derivación"
+    (cuando el equipo receptor acepta) y la definición del nuevo cobro.
+    Antes, aceptar con el checkbox marcado saltaba directo a
+    `NuevoCobroDialog`; ahora la capitana primero decide **Procede / No
+    procede** la modificación de contrato — Procede muestra los mismos
+    datos que antes (contexto de la derivación + Valor/Cuotas) y sigue
+    igual a "esperando cliente" en Apio; No procede solo pide
+    justificación obligatoria y cierra el caso igual como "Derivación a
+    otro servicio", sin nuevo cobro. Campos nuevos en `Caso`:
+    `modificacionContratoProcede` (`"si" | "no"`),
+    `modificacionContratoJustificacion`. `NuevoCobroDialog` deja de
+    usarse en el flujo de derivación (solo lo usa "Modificación de
+    contrato" → motivo "Otros" desde ahora).
+  - **Motivos de "Modificación de contrato"** (tipo de caso, al crear):
+    de `["Por derivación de servicio", "Agregar nuevo acreedor"]` a
+    **`["Agregar nuevo acreedor", "Otros"]`** — "Agregar nuevo acreedor"
+    sigue con su excepción (`GenerarNuevoCobroDialog`); "Otros" reemplaza
+    a "Por derivación de servicio" con el mismo comportamiento genérico
+    (`NuevoCobroDialog`).
+  `tsc`/`eslint`/`prettier`/`pnpm check:prototype` en verde.

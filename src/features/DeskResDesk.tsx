@@ -18,6 +18,7 @@ import { type Caso, SERVICIOS, type TipoCaso } from "@/shared/types/caso";
 
 import { CasoCard } from "./CasoCard";
 import { AgregarCasoDialog } from "./dialogs/AgregarCasoDialog";
+import { AnalisisModificacionContratoDialog } from "./dialogs/AnalisisModificacionContratoDialog";
 import { CompletarInformacionBajaDialog } from "./dialogs/CompletarInformacionBajaDialog";
 import { ConfirmarReembolsoBajaDialog } from "./dialogs/ConfirmarReembolsoBajaDialog";
 import { DecisionCierreDialog } from "./dialogs/DecisionCierreDialog";
@@ -101,6 +102,7 @@ type Tab = "activos" | "resueltos";
 
 type DialogoTipo =
   | "recepcion-derivacion"
+  | "analisis-modificacion-contrato"
   | "nuevo-cobro"
   | "generar-nuevo-cobro"
   | "revisar-mal-vendido"
@@ -288,6 +290,13 @@ export function DeskResDesk() {
       <RecepcionDerivacionDialog
         caso={dialogo?.tipo === "recepcion-derivacion" ? dialogo.caso : null}
         open={dialogo?.tipo === "recepcion-derivacion"}
+        onOpenChange={(v) => !v && cerrarDialogo()}
+        onSaved={handleGuardado}
+      />
+      <AnalisisModificacionContratoDialog
+        caso={dialogo?.tipo === "analisis-modificacion-contrato" ? dialogo.caso : null}
+        casos={casos ?? []}
+        open={dialogo?.tipo === "analisis-modificacion-contrato"}
         onOpenChange={(v) => !v && cerrarDialogo()}
         onSaved={handleGuardado}
       />
