@@ -1,8 +1,7 @@
-import { ListFilter, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import * as React from "react";
 
 import { Accordion } from "@/shared/components/base/Accordion";
-import { Badge } from "@/shared/components/base/Badge";
 import { Button } from "@/shared/components/base/Button";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/shared/components/base/Empty";
 import { HeaderBar } from "@/shared/components/base/HeaderBar";
@@ -36,7 +35,7 @@ const TIPO_FILTRO_LABEL: Record<TipoCaso, string> = {
   derivacion: "Derivación",
 };
 
-function FiltroLista({
+function FiltroDropdown({
   label,
   opciones,
   valor,
@@ -47,28 +46,48 @@ function FiltroLista({
   valor: string;
   onChange: (valor: string) => void;
 }) {
+  const [open, setOpen] = React.useState(false);
+  const activo = valor !== "todos";
+
   return (
-    <div className="space-y-1">
-      <p className="type-meta font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
-      <div className="space-y-0.5">
-        {opciones.map((opcion) => (
-          <button
-            key={opcion.value}
-            type="button"
-            onClick={() => onChange(opcion.value)}
-            aria-pressed={valor === opcion.value}
-            className={cn(
-              "block w-full rounded-control px-2 py-1 text-left type-supporting transition-colors",
-              valor === opcion.value
-                ? "bg-primary/10 font-medium text-primary"
-                : "text-foreground hover:bg-accent",
-            )}
-          >
-            {opcion.label}
-          </button>
-        ))}
-      </div>
-    </div>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          className={cn(
+            "gap-1.5",
+            activo && "border-primary/30 bg-primary/5 text-primary hover:text-primary",
+          )}
+        >
+          {label}
+          <ChevronDown className="size-(--icon-size-inline)" aria-hidden="true" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent side="bottom" align="start" sideOffset={8} className="w-56 p-1.5">
+        <div className="space-y-0.5">
+          {opciones.map((opcion) => (
+            <button
+              key={opcion.value}
+              type="button"
+              onClick={() => {
+                onChange(opcion.value);
+                setOpen(false);
+              }}
+              aria-pressed={valor === opcion.value}
+              className={cn(
+                "block w-full rounded-control px-2 py-1.5 text-left type-supporting transition-colors",
+                valor === opcion.value
+                  ? "bg-primary/10 font-medium text-primary"
+                  : "text-foreground hover:bg-accent",
+              )}
+            >
+              {opcion.label}
+            </button>
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 
@@ -89,7 +108,6 @@ type DialogoTipo =
 export function DeskResDesk() {
   const [casos, setCasos] = React.useState<Caso[] | null>(null);
   const [tab, setTab] = React.useState<Tab>("activos");
-  const [filtrosAbiertos, setFiltrosAbiertos] = React.useState(false);
   const [busqueda, setBusqueda] = React.useState("");
   const [servicioFiltro, setServicioFiltro] = React.useState<string>("todos");
   const [tipoFiltro, setTipoFiltro] = React.useState<string>("todos");
@@ -155,73 +173,43 @@ export function DeskResDesk() {
         }
       />
 
-      <Popover open={filtrosAbiertos} onOpenChange={setFiltrosAbiertos}>
-        <div className="pointer-events-none fixed inset-x-0 top-20 z-40">
-          <div className="pointer-events-auto mx-auto max-w-[1060px] px-4 md:px-6 lg:px-8">
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                aria-label="Filtros"
-                className="relative shadow-raised"
-              >
-                <ListFilter className="size-(--icon-size-control)" aria-hidden="true" />
-                {!filtrosAbiertos && filtrosActivos > 0 && (
-                  <Badge
-                    size="sm"
-                    className="absolute -right-1.5 -top-1.5 min-w-4 justify-center px-1"
-                  >
-                    {filtrosActivos}
-                  </Badge>
-                )}
-              </Button>
-            </PopoverTrigger>
-          </div>
-        </div>
-        <PopoverContent
-          side="bottom"
-          align="start"
-          sideOffset={8}
-          className="w-60 max-h-[70vh] overflow-y-auto p-3"
-        >
-          <div className="space-y-3">
+      <main className="mx-auto max-w-[1060px] px-4 py-8 md:px-6 lg:px-8">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <div className="min-w-56 flex-1 sm:max-w-xs">
             <Searchbox
-              placeholder="Buscar..."
+              placeholder="Buscar caso..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               onClear={() => setBusqueda("")}
             />
-            <FiltroLista
-              label="Servicio"
-              valor={servicioFiltro}
-              onChange={setServicioFiltro}
-              opciones={[
-                { value: "todos", label: "Todos" },
-                ...SERVICIOS.map((servicio) => ({ value: servicio, label: servicio })),
-              ]}
-            />
-            <FiltroLista
-              label="Tipo"
-              valor={tipoFiltro}
-              onChange={setTipoFiltro}
-              opciones={[
-                { value: "todos", label: "Todos" },
-                ...(Object.entries(TIPO_FILTRO_LABEL) as [TipoCaso, string][]).map(
-                  ([valor, label]) => ({ value: valor, label }),
-                ),
-              ]}
-            />
-            {filtrosActivos > 0 && (
-              <Button variant="ghost" size="sm" onClick={limpiarFiltros} className="gap-1.5">
-                <X className="size-(--icon-size-inline)" aria-hidden="true" />
-                Limpiar
-              </Button>
-            )}
           </div>
-        </PopoverContent>
-      </Popover>
-
-      <main className="mx-auto max-w-[1060px] px-4 py-8 md:px-6 lg:px-8">
+          <FiltroDropdown
+            label="Servicio"
+            valor={servicioFiltro}
+            onChange={setServicioFiltro}
+            opciones={[
+              { value: "todos", label: "Todos" },
+              ...SERVICIOS.map((servicio) => ({ value: servicio, label: servicio })),
+            ]}
+          />
+          <FiltroDropdown
+            label="Tipo caso"
+            valor={tipoFiltro}
+            onChange={setTipoFiltro}
+            opciones={[
+              { value: "todos", label: "Todos" },
+              ...(Object.entries(TIPO_FILTRO_LABEL) as [TipoCaso, string][]).map(
+                ([valor, label]) => ({ value: valor, label }),
+              ),
+            ]}
+          />
+          {filtrosActivos > 0 && (
+            <Button variant="ghost" size="sm" onClick={limpiarFiltros} className="gap-1.5">
+              <X className="size-(--icon-size-inline)" aria-hidden="true" />
+              Limpiar
+            </Button>
+          )}
+        </div>
         <div className="mb-6 grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-center">
           <Tabs
             value={tab}

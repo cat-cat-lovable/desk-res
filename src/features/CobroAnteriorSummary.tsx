@@ -11,7 +11,7 @@ export function CobroAnteriorSummary({ cobro, hideTitle = false }: CobroAnterior
   if (!cobro) return null;
 
   const grid = (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       <Campo label="Valor contrato" value={formatMonto(cobro.montoTotal)} />
       <Campo label="Número de cuotas" value={cobro.cuotas} />
       <Campo label="Valor cuota" value={formatMonto(cobro.montoPrimeraCuota)} />
