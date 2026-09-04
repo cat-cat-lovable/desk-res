@@ -61,7 +61,13 @@ function FiltroDropdown({
           )}
         >
           {label}
-          <ChevronDown className="size-(--icon-size-inline)" aria-hidden="true" />
+          <ChevronDown
+            className={cn(
+              "size-(--icon-size-inline) transition-transform duration-[var(--duration-fast)] ease-[var(--ease-standard)] motion-reduce:transition-none",
+              open && "rotate-180",
+            )}
+            aria-hidden="true"
+          />
         </Button>
       </PopoverTrigger>
       <PopoverContent side="bottom" align="start" sideOffset={8} className="w-56 p-1.5">
@@ -229,7 +235,7 @@ export function DeskResDesk() {
             <Spinner size="lg" />
           </div>
         ) : visibles.length === 0 ? (
-          <Empty>
+          <Empty className="animate-in fade-in duration-300">
             <EmptyHeader>
               <EmptyTitle>
                 {filtrosActivos > 0

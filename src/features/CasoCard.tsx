@@ -63,7 +63,7 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
   return (
     <AccordionPrimitive.Item value={caso.id} asChild>
       <Card
-        className="animate-in fade-in slide-in-from-bottom-1 fill-mode-backwards rounded-xl bg-sidebar-hover duration-300"
+        className="group animate-in fade-in slide-in-from-bottom-1 fill-mode-backwards rounded-xl bg-sidebar-hover duration-300 ease-[var(--ease-standard)] transition-shadow hover:shadow-raised motion-reduce:transition-none"
         style={{ animationDelay: `${entradaDelayMs}ms` }}
       >
         <CardHeader className="px-0">
@@ -71,10 +71,10 @@ export function CasoCard({ caso, index = 0, onAccion, onEliminar }: CasoCardProp
             <AccordionPrimitive.Trigger asChild>
               <button
                 type="button"
-                className="flex w-full cursor-pointer items-start gap-3 px-(--card-inset) text-left [&[data-state=open]>svg]:rotate-180"
+                className="flex w-full cursor-pointer items-start gap-3 px-(--card-inset) text-left transition-colors duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:bg-accent/40 motion-reduce:transition-none [&[data-state=open]>svg]:rotate-180"
               >
                 <ChevronDown
-                  className="mt-1 size-(--icon-size-control) shrink-0 text-muted-foreground transition-transform duration-[var(--duration-normal)]"
+                  className="mt-1 size-(--icon-size-control) shrink-0 text-muted-foreground transition-[transform,color] duration-[var(--duration-normal)] ease-[var(--ease-standard)] group-hover:text-foreground motion-reduce:transition-none"
                   aria-hidden="true"
                 />
                 <div className="min-w-0 flex-1 space-y-1.5">
